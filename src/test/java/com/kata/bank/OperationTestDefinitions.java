@@ -51,4 +51,13 @@ public class OperationTestDefinitions {
   public void response_will_return_OK_status(int status) {
     validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString("Success"));
   }
+
+  @Then("the response will return status {int}, successful message and deposit amount of {double}")
+  public void response_will_return_OK_status_and_deposit_amount(int status, Double amount) {
+    validatableResponse
+      .assertThat()
+      .statusCode(equalTo(status))
+      .body(containsString("Success"))
+      .body(containsString(amount.toString()));
+  }
 }
