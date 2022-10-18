@@ -49,8 +49,7 @@ public class OperationTestDefinitions {
 
   @Given("the client sends a request to {string}")
   public void client_sends_a_request_to_endpoint(String endpoint) throws Throwable {
-    validatableResponse =
-            requestSpecification().contentType(ContentType.JSON).when().get(endpoint).then();
+    validatableResponse = requestSpecification().contentType(ContentType.JSON).when().get(endpoint).then();
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
@@ -70,8 +69,7 @@ public class OperationTestDefinitions {
 
   @Given("the client sends a request to {string} with no field called amount")
   public void client_sends_a_request_to_endpoint_with_no_amount(String endpoint) throws Throwable {
-    validatableResponse =
-            requestSpecification().body("{}").contentType(ContentType.JSON).when().post(endpoint).then();
+    validatableResponse = requestSpecification().body("{}").contentType(ContentType.JSON).when().post(endpoint).then();
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
