@@ -29,4 +29,19 @@ public class OperationController {
       HttpStatus.OK
     );
   }
+
+  @PostMapping(
+          value = "/withdraw",
+          consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<?> withdraw(@Valid @RequestBody Operation operation, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) return new ResponseEntity<>(
+            bindingResult.getAllErrors(),
+            HttpStatus.BAD_REQUEST
+    ); else return new ResponseEntity<>(
+            "{ \"responseMessage\": \"Success\", \"amount\": \"" + operation.getAmount() + "\"}",
+            HttpStatus.OK
+    );
+  }
 }
