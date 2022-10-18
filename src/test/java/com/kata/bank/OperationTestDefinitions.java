@@ -60,4 +60,16 @@ public class OperationTestDefinitions {
       .body(containsString("Success"))
       .body(containsString(amount.toString()));
   }
+
+  @Given("the client sends a request to {string} with no field called amount")
+  public void client_sends_a_request_to_endpoint_with_no_amount(String endpoint) throws Throwable {
+    validatableResponse =
+            requestSpecification().body("{}").contentType(ContentType.JSON).when().post(endpoint).then();
+    System.out.println("RESPONSE: " + validatableResponse.extract().asString());
+  }
+
+  @Then("the response will return status {int} and error message {string}")
+  public void response_will_return_BAD_REQUEST_status(int status, String message) {
+    validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString(message));
+  }
 }
