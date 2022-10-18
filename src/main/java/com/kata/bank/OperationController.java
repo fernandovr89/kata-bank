@@ -18,7 +18,10 @@ public class OperationController {
     consumes = MediaType.APPLICATION_JSON_VALUE,
     produces = MediaType.APPLICATION_JSON_VALUE
   )
-  public ResponseEntity<?> deposit(@RequestBody String body) {
-    return new ResponseEntity<>("{ \"responseMessage\": \"Success\"}", HttpStatus.OK);
+  public ResponseEntity<?> deposit(@RequestBody Operation operation, BindingResult bindingResult) {
+    return new ResponseEntity<>(
+      "{ \"responseMessage\": \"Success\", \"amount\": \"" + operation.getAmount() + "\"}",
+      HttpStatus.OK
+    );
   }
 }
