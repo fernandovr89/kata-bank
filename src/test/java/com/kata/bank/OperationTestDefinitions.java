@@ -47,6 +47,13 @@ public class OperationTestDefinitions {
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
+  @Given("the client sends a request to {string}")
+  public void client_sends_a_request_to_endpoint(String endpoint) throws Throwable {
+    validatableResponse =
+            requestSpecification().contentType(ContentType.JSON).when().get(endpoint).then();
+    System.out.println("RESPONSE: " + validatableResponse.extract().asString());
+  }
+
   @Then("the response will return status {int} and successful message")
   public void response_will_return_OK_status(int status) {
     validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString("Success"));
