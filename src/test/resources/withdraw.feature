@@ -6,7 +6,7 @@ Feature: Verify withdraw operations
 
   Scenario: Send a valid withdraw request with operation input (amount)
     Given the client sends a request to "/withdraw" with an amount of 100
-    Then the response will return status 200, successful message and withdraw amount of 100
+    Then the response will return status 200, successful message and amount of 100
 
   Scenario: Send an invalid withdraw request with not amount field
     Given the client sends a request to "/withdraw" with no field called amount

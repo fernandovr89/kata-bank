@@ -6,7 +6,7 @@ Feature: Verify deposit operations
 
   Scenario: Send a valid deposit request with operation input (amount)
     Given the client sends a request to "/deposit" with an amount of 100
-    Then the response will return status 200, successful message and deposit amount of 100
+    Then the response will return status 200, successful message and amount of 100
 
   Scenario: Send an invalid deposit request with not amount field
     Given the client sends a request to "/deposit" with no field called amount
