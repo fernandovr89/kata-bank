@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1")
 public class OperationController {
@@ -18,8 +20,11 @@ public class OperationController {
     consumes = MediaType.APPLICATION_JSON_VALUE,
     produces = MediaType.APPLICATION_JSON_VALUE
   )
-  public ResponseEntity<?> deposit(@RequestBody Operation operation, BindingResult bindingResult) {
-    return new ResponseEntity<>(
+  public ResponseEntity<?> deposit(@Valid @RequestBody Operation operation, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) return new ResponseEntity<>(
+            bindingResult.getAllErrors(),
+            HttpStatus.BAD_REQUEST
+    ); else return new ResponseEntity<>(
       "{ \"responseMessage\": \"Success\", \"amount\": \"" + operation.getAmount() + "\"}",
       HttpStatus.OK
     );
