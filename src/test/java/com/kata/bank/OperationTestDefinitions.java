@@ -48,6 +48,15 @@ public class OperationTestDefinitions {
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
+  @Given("the client sends a request to {string} with a huge amount")
+  public void client_sends_a_request_to_endpoint_with_an_amount_of(String endpoint) throws Throwable {
+    Map<String, Double> requestBody = new HashMap<>();
+    requestBody.put("amount", Double.MAX_VALUE);
+    validatableResponse =
+            requestSpecification().body(requestBody).contentType(ContentType.JSON).when().post(endpoint).then();
+    System.out.println("RESPONSE: " + validatableResponse.extract().asString());
+  }
+
   @Given("the client sends a request to {string}")
   public void client_sends_a_request_to_endpoint(String endpoint) throws Throwable {
     validatableResponse = requestSpecification().contentType(ContentType.JSON).when().get(endpoint).then();
