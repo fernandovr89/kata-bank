@@ -53,7 +53,7 @@ public class OperationTestDefinitions {
     Map<String, Double> requestBody = new HashMap<>();
     requestBody.put("amount", Double.MAX_VALUE);
     validatableResponse =
-            requestSpecification().body(requestBody).contentType(ContentType.JSON).when().post(endpoint).then();
+      requestSpecification().body(requestBody).contentType(ContentType.JSON).when().post(endpoint).then();
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
