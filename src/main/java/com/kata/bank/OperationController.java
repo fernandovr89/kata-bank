@@ -1,6 +1,6 @@
 package com.kata.bank;
 
-import static com.kata.bank.OperationResponseConstants.SUCCESS_RESPONSE;
+import static com.kata.bank.OperationResponseConstants.*;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,9 @@ public class OperationController {
     if (bindingResult.hasErrors()) return new ResponseEntity<>(
       bindingResult.getAllErrors(),
       HttpStatus.BAD_REQUEST
+    ); else if (!operationService.isAValidDepositOperation(operation)) return new ResponseEntity<>(
+      INVALID_DEPOSIT_RESPONSE,
+      HttpStatus.BAD_REQUEST
     ); else {
       operationService.storeOperationWithType(operation, OperationType.DEPOSIT);
       return new ResponseEntity<>(SUCCESS_RESPONSE, HttpStatus.OK);
@@ -40,6 +43,9 @@ public class OperationController {
   public ResponseEntity<?> withdraw(@Valid @RequestBody Operation operation, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) return new ResponseEntity<>(
       bindingResult.getAllErrors(),
+      HttpStatus.BAD_REQUEST
+    ); else if (!operationService.isAValidWithdrawOperation(operation)) return new ResponseEntity<>(
+      INVALID_WITHDRAW_RESPONSE,
       HttpStatus.BAD_REQUEST
     ); else {
       operationService.storeOperationWithType(operation, OperationType.WITHDRAW);
