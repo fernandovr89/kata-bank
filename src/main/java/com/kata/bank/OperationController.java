@@ -1,6 +1,9 @@
 package com.kata.bank;
 
+import static com.kata.bank.OperationResponseConstants.SUCCESS_RESPONSE;
+
 import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class OperationController {
 
+  @Autowired
+  OperationService operationService;
+
   @PostMapping(
     value = "/deposit",
     consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -20,10 +26,10 @@ public class OperationController {
     if (bindingResult.hasErrors()) return new ResponseEntity<>(
       bindingResult.getAllErrors(),
       HttpStatus.BAD_REQUEST
-    ); else return new ResponseEntity<>(
-      "{ \"responseMessage\": \"Success\", \"amount\": \"" + operation.getAmount() + "\"}",
-      HttpStatus.OK
-    );
+    ); else {
+      operationService.storeOperationWithType(operation, OperationType.DEPOSIT);
+      return new ResponseEntity<>(SUCCESS_RESPONSE, HttpStatus.OK);
+    }
   }
 
   @PostMapping(
@@ -35,14 +41,14 @@ public class OperationController {
     if (bindingResult.hasErrors()) return new ResponseEntity<>(
       bindingResult.getAllErrors(),
       HttpStatus.BAD_REQUEST
-    ); else return new ResponseEntity<>(
-      "{ \"responseMessage\": \"Success\", \"amount\": \"" + operation.getAmount() + "\"}",
-      HttpStatus.OK
-    );
+    ); else {
+      operationService.storeOperationWithType(operation, OperationType.WITHDRAW);
+      return new ResponseEntity<>(SUCCESS_RESPONSE, HttpStatus.OK);
+    }
   }
 
   @GetMapping(value = "/history", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> history() {
-    return new ResponseEntity<>("{ \"responseMessage\": \"Success\"}", HttpStatus.OK);
+    return new ResponseEntity<>(operationService.getOperationHistory(), HttpStatus.OK);
   }
 }
