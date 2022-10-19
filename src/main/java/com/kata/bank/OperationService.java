@@ -34,6 +34,14 @@ public class OperationService {
     return Collections.unmodifiableList(operationHistory);
   }
 
+  public boolean isAValidDepositOperation(Operation operation) {
+    return Double.MAX_VALUE - currentBalance >= operation.getAmount();
+  }
+
+  public boolean isAValidWithdrawOperation(Operation operation) {
+    return currentBalance - operation.getAmount() >= 0.0D;
+  }
+
   private Double getUpdatedBalanceAfterOperation(Operation operation) {
     if (operation.getOperationType() == OperationType.DEPOSIT) return (
       this.currentBalance += operation.getAmount()
