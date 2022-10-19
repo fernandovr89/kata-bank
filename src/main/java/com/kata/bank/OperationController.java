@@ -51,4 +51,10 @@ public class OperationController {
   public ResponseEntity<?> history() {
     return new ResponseEntity<>(operationService.getOperationHistory(), HttpStatus.OK);
   }
+
+  @GetMapping(value = "/reset", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> reset() {
+    operationService.resetOperationHistory();
+    return new ResponseEntity<>(SUCCESS_RESPONSE, HttpStatus.OK);
+  }
 }

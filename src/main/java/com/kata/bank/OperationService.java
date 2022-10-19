@@ -28,6 +28,12 @@ public class OperationService {
     return Collections.unmodifiableList(operationHistory);
   }
 
+  public List<Operation> resetOperationHistory() {
+    currentBalance = 0D;
+    operationHistory = new LinkedList<>();
+    return Collections.unmodifiableList(operationHistory);
+  }
+
   private Double getUpdatedBalanceAfterOperation(Operation operation) {
     if (operation.getOperationType() == OperationType.DEPOSIT) return (
       this.currentBalance += operation.getAmount()
