@@ -56,7 +56,10 @@ public class OperationTestDefinitions {
 
   @Then("the response will return status {int} and successful message")
   public void response_will_return_OK_status_and_message(int status) {
-    validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString("Operation completed successfully"));
+    validatableResponse
+      .assertThat()
+      .statusCode(equalTo(status))
+      .body(containsString("Operation completed successfully"));
   }
 
   @Then("the response will return status {int}")
@@ -88,5 +91,10 @@ public class OperationTestDefinitions {
       .statusCode(equalTo(status))
       .body(containsString("DEPOSIT"))
       .body(containsString("51.0"));
+  }
+
+  @Then("the response will return status {int} and the history with the updated balance of {double}")
+  public void response_will_return_OK_status_and_history_with_updated_balance(int status, Double balance) {
+    validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString(balance.toString()));
   }
 }
