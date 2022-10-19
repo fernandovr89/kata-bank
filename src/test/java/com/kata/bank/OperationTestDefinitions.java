@@ -55,17 +55,13 @@ public class OperationTestDefinitions {
   }
 
   @Then("the response will return status {int} and successful message")
-  public void response_will_return_OK_status(int status) {
-    validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString("Success"));
+  public void response_will_return_OK_status_and_message(int status) {
+    validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString("Operation completed successfully"));
   }
 
-  @Then("the response will return status {int}, successful message and amount of {double}")
-  public void response_will_return_OK_status_and_amount(int status, Double amount) {
-    validatableResponse
-      .assertThat()
-      .statusCode(equalTo(status))
-      .body(containsString("Success"))
-      .body(containsString(amount.toString()));
+  @Then("the response will return status {int}")
+  public void response_will_return_OK_status(int status) {
+    validatableResponse.assertThat().statusCode(equalTo(status));
   }
 
   @Given("the client sends a request to {string} with no field called amount")
@@ -88,10 +84,9 @@ public class OperationTestDefinitions {
   @Then("the response will return status {int} and the history with the new deposit record")
   public void response_will_return_OK_status_and_history_with_new_deposit_record(int status) {
     validatableResponse
-            .assertThat()
-            .statusCode(equalTo(status))
-            .body(containsString("DEPOSIT"))
-            .body(containsString("51.0"));
+      .assertThat()
+      .statusCode(equalTo(status))
+      .body(containsString("DEPOSIT"))
+      .body(containsString("51.0"));
   }
-
 }
