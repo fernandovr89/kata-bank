@@ -3,6 +3,7 @@ package com.kata.bank;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -77,4 +78,20 @@ public class OperationTestDefinitions {
   public void response_will_return_BAD_REQUEST_status(int status, String message) {
     validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString(message));
   }
+
+  @And("the client sends a request to {string} to verify his account statement")
+  public void client_sends_request_to_verify_his_account_statement(String endpoint) throws Throwable {
+    validatableResponse = requestSpecification().contentType(ContentType.JSON).when().get(endpoint).then();
+    System.out.println("RESPONSE: " + validatableResponse.extract().asString());
+  }
+
+  @Then("the response will return status {int} and the history with the new deposit record")
+  public void response_will_return_OK_status_and_history_with_new_deposit_record(int status) {
+    validatableResponse
+            .assertThat()
+            .statusCode(equalTo(status))
+            .body(containsString("DEPOSIT"))
+            .body(containsString("51.0"));
+  }
+
 }
