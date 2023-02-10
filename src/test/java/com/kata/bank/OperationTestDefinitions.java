@@ -3,9 +3,8 @@ package com.kata.bank;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -39,8 +38,8 @@ public class OperationTestDefinitions {
     return given();
   }
 
-  @Given("the client sends a request to {string} with an amount of {double}")
-  public void client_sends_a_request_to_endpoint_with_an_amount_of(String endpoint, Double amount) throws Throwable {
+  @When("the client sends a request to {string} with an amount of {double}")
+  public void theClientSendsARequestToWithAnAmountOf(String endpoint, Double amount) {
     Map<String, Double> requestBody = new HashMap<>();
     requestBody.put("amount", amount);
     validatableResponse =
@@ -48,8 +47,8 @@ public class OperationTestDefinitions {
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
-  @Given("the client sends a request to {string} with a huge amount")
-  public void client_sends_a_request_to_endpoint_with_an_amount_of(String endpoint) throws Throwable {
+  @When("the client sends a request to {string} with a huge amount")
+  public void theClientSendsARequestToWithAHugeAmount(String endpoint) {
     Map<String, Double> requestBody = new HashMap<>();
     requestBody.put("amount", Double.MAX_VALUE);
     validatableResponse =
@@ -57,44 +56,36 @@ public class OperationTestDefinitions {
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
-  @Given("the client sends a request to {string}")
-  public void client_sends_a_request_to_endpoint(String endpoint) throws Throwable {
+  @When("the client sends a request to {string}")
+  public void theClientSendsARequestTo(String endpoint) {
     validatableResponse = requestSpecification().contentType(ContentType.JSON).when().get(endpoint).then();
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
-  @Then("the response will return status {int} and successful message")
-  public void response_will_return_OK_status_and_message(int status) {
-    validatableResponse
-      .assertThat()
-      .statusCode(equalTo(status))
-      .body(containsString("Operation completed successfully"));
-  }
-
-  @Then("the response will return status {int}")
-  public void response_will_return_OK_status(int status) {
-    validatableResponse.assertThat().statusCode(equalTo(status));
-  }
-
-  @Given("the client sends a request to {string} with no field called amount")
-  public void client_sends_a_request_to_endpoint_with_no_amount(String endpoint) throws Throwable {
+  @When("the client sends a request to {string} with no field called amount")
+  public void theClientSendsARequestToWithNoFieldCalledAmount(String endpoint) {
     validatableResponse = requestSpecification().body("{}").contentType(ContentType.JSON).when().post(endpoint).then();
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
-  @Then("the response will return status {int} and error message {string}")
-  public void response_will_return_BAD_REQUEST_status(int status, String message) {
-    validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString(message));
-  }
-
-  @And("the client sends a request to {string} to verify his account statement")
-  public void client_sends_request_to_verify_his_account_statement(String endpoint) throws Throwable {
+  @When("the client sends a request to {string} to verify his account statement")
+  public void theClientSendsARequestToToVerifyHisAccountStatement(String endpoint) {
     validatableResponse = requestSpecification().contentType(ContentType.JSON).when().get(endpoint).then();
     System.out.println("RESPONSE: " + validatableResponse.extract().asString());
   }
 
+  @Then("the response will return status {int} and error message {string}")
+  public void theResponseWillReturnStatusAndErrorMessage(Integer status, String message) {
+    validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString(message));
+  }
+
+  @Then("the response will return status {int}")
+  public void theResponseWillReturnStatus(Integer status) {
+    validatableResponse.assertThat().statusCode(equalTo(status));
+  }
+
   @Then("the response will return status {int} and the history with the new deposit record")
-  public void response_will_return_OK_status_and_history_with_new_deposit_record(int status) {
+  public void theResponseWillReturnStatusAndTheHistoryWithTheNewDepositRecord(Integer status) {
     validatableResponse
       .assertThat()
       .statusCode(equalTo(status))
@@ -103,7 +94,15 @@ public class OperationTestDefinitions {
   }
 
   @Then("the response will return status {int} and the history with the updated balance of {double}")
-  public void response_will_return_OK_status_and_history_with_updated_balance(int status, Double balance) {
+  public void theResponseWillReturnStatusAndTheHistoryWithTheUpdatedBalanceOf(Integer status, Double balance) {
     validatableResponse.assertThat().statusCode(equalTo(status)).body(containsString(balance.toString()));
+  }
+
+  @Then("the response will return status {int} and successful message")
+  public void theResponseWillReturnStatusAndSuccessfulMessage(Integer status) {
+    validatableResponse
+      .assertThat()
+      .statusCode(equalTo(status))
+      .body(containsString("Operation completed successfully"));
   }
 }
